@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Examen Diagnóstico</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            background-color: #bb9cbb;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        label {
+            font-weight: bold;
+            display: block;
+            margin-top: 10px;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            display: block;
+        }
+        button {
+            background-color: #28a745;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 15px;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        #razon_no_container {
+            display: none;
+            margin-top: 10px;
+        }
+        #resultados {
+            margin-top: 20px;
+            padding: 15px;
+            background: #ffffff;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+    <script>
+        function toggleReason() {
+            var checkboxNo = document.getElementById("orgulloso_no");
+            var reasonContainer = document.getElementById("razon_no_container");
+            reasonContainer.style.display = checkboxNo.checked ? "block" : "none";
+        }
+
+        function saveResponses(event) {
+            event.preventDefault(); // Evita el envío por defecto
+            
+            let formData = new FormData(document.getElementById("cuestionario"));
+            let responses = {};
+            
+            formData.forEach((value, key) => {
+                responses[key] = value;
+            });
+            
+            localStorage.setItem("cuestionarioRespuestas", JSON.stringify(responses));
+            alert("Respuestas guardadas exitosamente");
+            mostrarRespuestas();
+        }
+
+        function mostrarRespuestas() {
+            let respuestasGuardadas = JSON.parse(localStorage.getItem("cuestionarioRespuestas"));
+            if (respuestasGuardadas) {
+                let resultadoDiv = document.getElementById("resultados");
+                resultadoDiv.innerHTML = "<h3>Respuestas Guardadas:</h3>";
+                for (let key in respuestasGuardadas) {
+                    resultadoDiv.innerHTML += `<p><strong>${key}:</strong> ${respuestasGuardadas[key]}</p>`;
+                }
+            }
+        }
+
+        window.onload = function() {
+            mostrarRespuestas();
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h2>Examen Diagnóstico - Cuestionario Familiar</h2>
+        <form id="cuestionario" onsubmit="saveResponses(event)">
+            <label for="nombre">Nombre completo:</label>
+            <input type="text" id="nombre" name="nombre" required>
+            
+            <label for="fecha_nacimiento">Fecha de nacimiento:</label>
+            <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" required>
+            
+            <label for="edad">Edad:</label>
+            <input type="number" id="edad" name="edad" required>
+            
+            <label for="sexo">Sexo:</label>
+            <select id="sexo" name="sexo" required>
+                <option value="masculino">Masculino</option>
+                <option value="femenino">Femenino</option>
+                <option value="otro">Otro</option>
+            </select>
+            
+            <label for="ocupacion">Ocupación:</label>
+            <input type="text" id="ocupacion" name="ocupacion" required>
+            
+            <label for="hobbie">Hobbie:</label>
+            <input type="text" id="hobbie" name="hobbie" required>
+            
+            <label for="pelicula">Película favorita:</label>
+            <input type="text" id="pelicula" name="pelicula" required>
+            
+            <label for="comida">Comida favorita:</label>
+            <input type="text" id="comida" name="comida" required>
+            
+            <label for="animal">Animal favorito:</label>
+            <input type="text" id="animal" name="animal" required>
+            
+            <label for="expectativa">¿Qué esperas de mí en la carrera?</label>
+            <textarea id="expectativa" name="expectativa" rows="4" required></textarea>
+            
+            <label>¿Estás orgulloso de mí?</label>
+            <input type="checkbox" id="orgulloso_si" name="orgulloso" value="si">
+            <label for="orgulloso_si">Sí</label>
+            <input type="checkbox" id="orgulloso_no" name="orgulloso" value="no" onclick="toggleReason()">
+            <label for="orgulloso_no">No</label>
+            
+            <div id="razon_no_container">
+                <label for="razon_no">Si no, ¿por qué?:</label>
+                <input type="text" id="razon_no" name="razon_no">
+            </div>
+            
+            <button type="submit">Enviar Respuestas</button>
+        </form>
+        <div id="resultados"></div>
+    </div>
+</body>
+</html>
