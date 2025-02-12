@@ -1,0 +1,1 @@
+Este codigo permite crear una pagina web que es un cuestionario donde nos permite preguntarle a nuestra familia cosas personales como nombre,edad,fecha de nacimientio y gustos como comida favorita,musica,series y peliculas favoritas.Finalmente guarda las respuestas una vez que son enviadas para que el propietario del cuestionario pueda verlas.
